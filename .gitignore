@@ -1,0 +1,67 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+.yarn/cache
+.yarn/unplugged
+.yarn/install-state.gz
+
+# Bun
+.bun/
+bun-debug.log*
+# (bun.lockb is intentionally committed)
+
+# Build output
+dist/
+build/
+out/
+.next/
+.nuxt/
+.svelte-kit/
+.vite/
+.turbo/
+.cache/
+*.tsbuildinfo
+
+# Per-app artifacts (monorepo glob coverage)
+apps/**/node_modules/
+apps/**/dist/
+apps/**/build/
+apps/**/.next/
+apps/**/.turbo/
+apps/**/.env
+apps/**/.env.local
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Testing / coverage
+coverage/
+.nyc_output/
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+
+# Editor / IDE
+.idea/
+*.swp
+*.swo
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# Claude Code — personal overrides only (team settings.json IS committed)
+.claude/settings.local.json
