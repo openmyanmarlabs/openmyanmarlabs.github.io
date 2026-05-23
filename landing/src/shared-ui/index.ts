@@ -9,6 +9,7 @@ export { Card } from "./card";
 export { StatTile } from "./stat-tile";
 export { CountUp } from "./count-up";
 export { Reveal } from "./reveal";
+export { Switch } from "./switch";
 
 // Public prop types for section consumers.
 export type { ButtonProps, ButtonVariant, ButtonSize } from "./button";
@@ -17,3 +18,4 @@ export type { CardProps, CardElevation, CardRadius } from "./card";
 export type { StatTileProps, StatTileAlign } from "./stat-tile";
 export type { CountUpProps } from "./count-up";
 export type { RevealProps } from "./reveal";
+export type { SwitchProps } from "./switch";

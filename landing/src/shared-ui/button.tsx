@@ -3,8 +3,10 @@
  *
  * Variants: primary (accent pill) / secondary (panel) / ghost.
  * Sizes:    sm / md / lg.
- * Press:    scales to .98 on tap (motion). Reduced-motion already collapses
- *           the duration at the token layer, so press is effectively inert.
+ * Hover:    subtle lift (~2px) + slight scale + raised shadow (motion whileHover).
+ * Press:    scales to .98 on tap (motion), layered over hover.
+ * Reduced-motion: useReducedMotion drops the lift/scale on hover & press (the
+ *           button stays put); colour transitions also collapse via tokens.
  *
  * Pure/presentational: label via children, behaviour via props. No copy baked in.
  *
@@ -16,7 +18,7 @@
  *   ...rest   forwarded (onClick, href, disabled, aria-*, style, ...)
  */
 
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import type { CSSProperties, ElementType, ReactNode } from "react";
 
 export type ButtonVariant = "primary" | "secondary" | "ghost";
@@ -85,12 +87,25 @@ export function Button({
   // `as` is runtime-dynamic, so the motion component is built per-render.
   // motion.create accepts a string tag or component; props are forwarded below.
   const MotionTag = motion.create(as);
+  const prefersReduced = useReducedMotion();
+
+  // Hover/press micro-interaction — gated by reduced-motion (stays put then).
+  // Mirrors --hover-lift (-2px) / --hover-scale (1.02) / --elevation-hover.
+  const whileHover = prefersReduced
+    ? undefined
+    : {
+        y: -2,
+        scale: 1.02,
+        boxShadow: "var(--elevation-hover)",
+      };
+  const whileTap = prefersReduced ? undefined : { scale: 0.98, y: 0 };
 
   return (
     <MotionTag
       type={as === "button" ? (type ?? "button") : type}
-      whileTap={{ scale: 0.98 }}
-      transition={{ duration: 0.15, ease: [0.4, 0, 0.2, 1] }}
+      whileHover={whileHover}
+      whileTap={whileTap}
+      transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
       style={{
         display: "inline-flex",
         alignItems: "center",

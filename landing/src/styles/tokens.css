@@ -61,10 +61,29 @@
   --duration-fast: 150ms;
   --duration-base: 250ms;
   --duration-slow: 400ms;
+  /* Quick acknowledging feedback for hover / press / toggle micro-moments. */
+  --duration-micro: 200ms;
 
   /* --- Motion: easing --- */
   --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-reveal: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Springy / overshoot easings for tactile micro-interactions. */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out-back: cubic-bezier(0.18, 0.89, 0.32, 1.28);
+
+  /* --- Motion: micro-interaction tokens --- */
+  /* Distance an interactive surface lifts on hover (translateY). */
+  --hover-lift: -2px;
+  /* Larger lift for full cards that opt into the interactive state. */
+  --hover-lift-card: -4px;
+  /* Shadow a surface rises into on hover. */
+  --elevation-hover: 0 6px 20px rgba(0, 0, 0, 0.1);
+  /* Scale a small control nudges to on hover. */
+  --hover-scale: 1.02;
+
+  /* --- Motion: switch / toggle thumb spring --- */
+  --spring-toggle-stiffness: 520;
+  --spring-toggle-damping: 32;
 
   /* --- Typography: families --- */
   --font-display: "Fraunces", Georgia, "Times New Roman", serif;
@@ -109,5 +128,6 @@
     --duration-fast: 0.01ms;
     --duration-base: 0.01ms;
     --duration-slow: 0.01ms;
+    --duration-micro: 0.01ms;
   }
 }
