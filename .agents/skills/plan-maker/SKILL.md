@@ -47,6 +47,14 @@ Break the work into ordered phases. Good phases are:
 
 Aim for the natural number of phases, not a target count. A small feature might be 2–3; a large one 6–8. If you're past ~8, the slices are probably too thin — merge some.
 
+**Testable logic → plan it test-first (TDD).** When a phase delivers logic with a clear input→output contract — Bun services, Drizzle repositories, zod schemas, token/crypto/format utilities, pure store transitions — fold testing into that phase per the `tdd` skill (`.agent/skills/tdd/SKILL.md`), don't bolt it on. Concretely:
+
+- The phase's **Steps** drive a red→green→refactor loop, one behavior at a time (`bun test`, co-located `*.test.ts`) — not "then write tests" at the end.
+- The phase's **Done when** lists the behaviors that must be green, so "tested" is part of the acceptance bar, not optional.
+- **No separate trailing "testing" phase.** A phase that writes all the tests after the code is the exact anti-pattern TDD avoids — tests belong with the behavior they describe, so they're written against real (not imagined) interfaces and the phase is independently verifiable.
+- `plan-executor` can't invoke skills, so in any such phase **point the executor at `.agent/skills/tdd/SKILL.md` in its Context** (same move as the Tailwind callout) — that's how it picks up the repo's patterns cold (in-memory SQLite + DI, and _don't_ import `migrate.ts` in tests — it boots the Electrobun runtime).
+- UI / RPC / Electrobun-runtime / startup glue isn't unit-tested — say so in that phase (verified by running the app), so the executor doesn't waste effort mocking the un-mockable.
+
 ## Step 3 — Assign the plan id
 
 One id is shared by a plan's root + all its phases. Sequential, zero-padded to 3 digits. Compute the next id by scanning existing roots:
@@ -113,6 +121,8 @@ What the executor needs to know — relevant files, existing patterns to follow,
 
 - `path/to/file` — what changes.
 ```
+
+For a phase that builds testable logic, fold the TDD expectation right into this template: write test-first **Steps** (red→green→refactor), list the green behaviors under **Done when**, add the `*.test.ts` files to **Touches**, and cite `.claude/skills/tdd/SKILL.md` in **Context** (see the TDD note in Step 2).
 
 **Delegating phase writing:** for plans with several phases, you can fan out the file-writing to the `plan-writer` subagent — it runs in isolation, so pass it everything from your decomposition (phase title, id/number, blocked-by, parallel-safe-with, goal, context, steps, files). Phases that are parallel-safe can be written by parallel `plan-writer` agents in one turn. For a 2–3 phase plan, just write them inline; the subagent is for scale.
 
