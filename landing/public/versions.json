@@ -1,0 +1,17 @@
+{
+  "electrobun-template": {
+    "version": "0.0.0",
+    "downloads": {
+      "macos": "https://openmyanmarlabs.com/release/electrobun-template/electrobun-template-macos.dmg",
+      "win": "https://openmyanmarlabs.com/release/electrobun-template/electrobun-template-win.exe",
+      "linux": "https://openmyanmarlabs.com/release/electrobun-template/electrobun-template-linux.AppImage"
+    },
+    "release_dir": "https://openmyanmarlabs.com/release/electrobun-template/",
+    "released_at": "2026-05-24",
+    "mandatory": false,
+    "notes": {
+      "en": "Initial seed entry for the Electrobun template. No update is available yet.",
+      "my": "Electrobun template ၏ ပထမဆုံး မှတ်တမ်းဖြစ်သည်။ အပ်ဒိတ်အသစ် မရှိသေးပါ။"
+    }
+  }
+}
