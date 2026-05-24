@@ -33,6 +33,8 @@ Behave like Claude's plan mode — read the input, explore the codebase as much 
 2. Explore the codebase enough to plan honestly — existing structure, conventions, what already exists vs. what's net-new. Don't guess at file layouts you can check.
 3. If the input is too thin to plan from (no clear goal, contradictory scope), ask the user one or two sharp questions rather than inventing requirements.
 
+**Electrobun work → consult the local docs.** If the build touches Electrobun (desktop app, `electrobun.config`, CLI, browser windows/webviews, bundling/distribution, code-signing, updates, tray/menus, IPC/events…), spawn the `electrobun-docs-reader` subagent to pull the exact API/guide reference from the local KB (`workflow/learning/electron-bun/`) — ground phases in real signatures, don't guess or fetch online. Ask it specific questions (e.g. "BrowserWindow constructor options + how to load a view?"). Fan out several in one turn for independent topics. Cite the KB file paths it returns in the relevant phase's **Context** so executors can read them cold.
+
 ## Step 2 — Decompose into phases
 
 Break the work into ordered phases. Good phases are:
