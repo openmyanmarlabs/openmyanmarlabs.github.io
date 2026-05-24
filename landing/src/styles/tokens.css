@@ -86,11 +86,12 @@
   --spring-toggle-damping: 32;
 
   /* --- Typography: families --- */
-  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
   --font-myanmar: "KhitHaungg", "Noto Sans Myanmar", sans-serif;
   --font-sans:
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  /* Display headings reuse the Apple system sans stack. */
+  --font-display: var(--font-sans);
 
   /* --- Typography: type scale (size / weight) --- */
   --text-display-size: 56px;

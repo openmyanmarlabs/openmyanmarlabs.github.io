@@ -1,6 +1,6 @@
 # Design System
 
-Clean, minimal, "Apple-white". One sharp accent on lots of white; editorial serif headlines; calm, purposeful motion. Light by default, dark + accent bands for emphasis.
+Clean, minimal, "Apple-white". One sharp accent on lots of white; clean Apple-system sans headlines; calm, purposeful motion. Light by default, dark + accent bands for emphasis.
 
 ## Color
 
@@ -25,7 +25,7 @@ Clean, minimal, "Apple-white". One sharp accent on lots of white; editorial seri
 ## Typography
 
 - **Body:** system UI sans (San Francisco / Segoe / Roboto).
-- **Display:** Fraunces (serif); italic = emphasis.
+- **Display:** Apple system sans (`-apple-system` → SF Pro); same family as body, heavier weight.
 - **Secondary script:** Noto Sans Myanmar (Burmese).
 - **Numbers:** tabular figures.
 
