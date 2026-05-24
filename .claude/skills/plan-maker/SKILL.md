@@ -53,7 +53,13 @@ Aim for the natural number of phases, not a target count. A small feature might 
 - The phase's **Done when** lists the behaviors that must be green, so "tested" is part of the acceptance bar, not optional.
 - **No separate trailing "testing" phase.** A phase that writes all the tests after the code is the exact anti-pattern TDD avoids — tests belong with the behavior they describe, so they're written against real (not imagined) interfaces and the phase is independently verifiable.
 - `plan-executor` can't invoke skills, so in any such phase **point the executor at `.claude/skills/tdd/SKILL.md` in its Context** (same move as the Tailwind callout) — that's how it picks up the repo's patterns cold (in-memory SQLite + DI, and _don't_ import `migrate.ts` in tests — it boots the Electrobun runtime).
-- UI / RPC / Electrobun-runtime / startup glue isn't unit-tested — say so in that phase (verified by running the app), so the executor doesn't waste effort mocking the un-mockable.
+- UI, the Electrobun transport/runtime, and startup glue aren't unit-tested — say so in that phase (verified by running the app, or the L1 gate below), so the executor doesn't mock the un-mockable. RPC **handler logic** is the exception: it's covered at L1 — see next.
+
+**Cross-process features → an L1 backend-e2e gate.** Units ride with each phase, but a feature that spans the RPC → service → DB boundary also needs end-to-end coverage of the _assembled_ main-process stack. Plan that per the `backend-e2e` skill (`.claude/skills/backend-e2e/SKILL.md`):
+
+- Fold the L1 suite into the **final vertical phase's Done when** (or, for a big feature, a small final phase): the real handler → service → repo → SQLite path green via `bun test`. This is the one legitimate end-of-feature test step — it differs from the trailing-test anti-pattern because it tests integration **across** phases, not the logic of one.
+- For that to be testable, any phase building RPC handlers must use the **transport-free seam**: a pure `create<Feature>Handlers(service)` map (no `electrobun/bun` import) + a thin `create<Feature>Rpc` defineRPC wrapper. Write that into the phase's Steps and cite the skill in its Context.
+- The native-GUI acceptance walk (relaunch persistence, no-FOUC, fonts, real clicks) can't be automated — record it in the root plan's **Notes / risks** as a manual `verify`-skill step, so it's not mistaken for something the executor can check.
 
 ## Step 3 — Assign the plan id
 
