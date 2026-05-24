@@ -23,14 +23,10 @@ out/
 .cache/
 *.tsbuildinfo
 
-# Per-app artifacts (monorepo glob coverage)
-apps/**/node_modules/
-apps/**/dist/
-apps/**/build/
-apps/**/.next/
-apps/**/.turbo/
-apps/**/.env
-apps/**/.env.local
+# apps/ = drop-zone for independent apps — each owns its own git init + flow.
+# Parent monorepo ignores everything inside; .gitkeep preserves the folder.
+apps/*
+!apps/.gitkeep
 
 # Environment / secrets
 .env
