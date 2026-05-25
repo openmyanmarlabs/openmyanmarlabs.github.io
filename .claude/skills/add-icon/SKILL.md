@@ -39,16 +39,35 @@ exists. If either fails, stop and tell the user.
 ## Step 1 — generate the icon files
 
 ```bash
-.claude/skills/add-icon/scripts/gen-icons.sh <source.png> apps/<app-name> [--no-tray]
+.claude/skills/add-icon/scripts/gen-icons.sh <source.png> apps/<app-name> \
+  [--no-tray | --tray-only] [--tray-scale <frac>]
 ```
 
-Pass `--no-tray` when the user only wants the app/bundle icon. The script writes:
+Flags:
 
-- `apps/<app-name>/icon.iconset/` — the 10 Apple-named PNGs.
-- `apps/<app-name>/public/tray-icon.png` (32px) + `tray-icon@2x.png` (64px) — unless `--no-tray`.
+- `--no-tray` — iconset only (user wants just the app/bundle icon).
+- `--tray-only` — tray PNGs only, leave the iconset alone (just resizing/retouching
+  the tray — what you want when only the menu-bar icon is wrong).
+- `--tray-scale <frac>` — glyph size as a fraction of the tray canvas. Default
+  `0.6` (60%). Lower = smaller glyph / more padding.
 
-It prints what it created. macOS only (uses `sips`; no Xcode/iconutil needed —
-Electrobun reads the `.iconset` folder directly).
+The script writes:
+
+- `apps/<app-name>/icon.iconset/` — the 10 Apple-named PNGs (full-bleed). Skipped with `--tray-only`.
+- `apps/<app-name>/public/tray-icon.png` (32px canvas) + `tray-icon@2x.png` (64px canvas) — skipped with `--no-tray`.
+
+**Tray icons are padded, not full-bleed.** A menu-bar glyph that fills its canvas
+renders oversized next to the bar. So the tray PNGs crop the source to its alpha
+bounding box, scale that glyph to `--tray-scale` of the canvas, and center it on a
+transparent square. The padding is what sets the on-bar size — shrink the glyph by
+lowering `--tray-scale`, don't touch the `Tray({ width, height })` (those stay at
+the canvas size). The bbox crop normalizes whatever internal padding the source
+already had, so the scale is honest across different logos.
+
+It prints what it created. macOS only (`sips` for the iconset). The tray glyph is
+cropped+centered with Python/Pillow when present; without Pillow it falls back to
+`sips` resize + transparent pad (still centered, just not bbox-cropped, so the
+visible glyph reads a touch smaller than the scale).
 
 ## Step 2 — wire the bundle icon into electrobun.config.ts
 
@@ -149,13 +168,27 @@ After a successful build you can sanity-check the bundle icon on macOS:
   a solid black square. If the source is a transparent monochrome glyph it looks
   great; if it's a busy/opaque logo, either tell the user to supply a dedicated
   transparent silhouette for the tray, or set `template: false` (full color).
-- **Tray image in `electrobun dev`.** `views://main/...` resolves from the built
-  bundle; under `electrobun dev` there is no bundle, so the dev tray may show
-  with no image (title only). It's correct in the built app. Don't "fix" it by
-  changing the path.
+- **Dev shows the STALE tray, not the new one.** `views://main/tray-icon.png`
+  resolves from the bundle, and this monorepo's dev flow (`scripts/dev.ts` →
+  `electrobun dev --watch` → `post-build`) fills the bundle by copying `dist/` —
+  but `dist/` is only refreshed by `vite build`, which the dev server never runs.
+  So a freshly regenerated `public/tray-icon.png` does **not** reach the running
+  app: it keeps loading the old icon baked into `dist/` from the last full build.
+  To see a regenerated tray in dev: copy the new PNGs into `dist/` (and the live
+  bundle's `…/app/views/main/`), then **restart** (the `Tray` image is set once at
+  construction). A prod `bun run build` does this correctly on its own.
+  ```sh
+  cp public/tray-icon.png public/tray-icon@2x.png dist/
+  ```
 - **Rebuild is required for the bundle icon.** It's embedded at build time —
-  config/asset changes don't show until a rebuild. The tray is runtime
-  (`tray.setImage(...)`), no rebuild needed.
+  config/asset changes don't show until a rebuild. The tray image is set once when
+  the `Tray` is constructed, so a regenerated `tray-icon.png` needs an app
+  **restart** (or a `tray.setImage(...)` call) to appear — no full rebuild, but a
+  live dev session won't hot-swap it.
+- **Tray too big/small? Change the padding, not the window.** On-bar size is set by
+  how much of the canvas the glyph fills — re-run with a different `--tray-scale`
+  (default `0.6` = 60%). Leave `Tray({ width: 32, height: 32 })` matching the
+  canvas; shrinking those distorts/clips instead of resizing the glyph.
 - **`.icon` (Icon Composer) files need full Xcode (`actool`).** This skill uses
   the `.iconset` folder route on purpose — works with just Command Line Tools.
 - **Source must be square and ≥1024px.** The script refuses non-square or
