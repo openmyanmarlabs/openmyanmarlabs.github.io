@@ -13,5 +13,50 @@
       "en": "Initial seed entry for the Electrobun template. No update is available yet.",
       "my": "Electrobun template ၏ ပထမဆုံး မှတ်တမ်းဖြစ်သည်။ အပ်ဒိတ်အသစ် မရှိသေးပါ။"
     }
+  },
+  "open-myanmar-invoice": {
+    "version": "0.0.0",
+    "downloads": {
+      "macos": "https://openmyanmarlabs.com/release/open-myanmar-invoice/open-myanmar-invoice-macos.dmg",
+      "win": "https://openmyanmarlabs.com/release/open-myanmar-invoice/open-myanmar-invoice-win.exe",
+      "linux": "https://openmyanmarlabs.com/release/open-myanmar-invoice/open-myanmar-invoice-linux.AppImage"
+    },
+    "release_dir": "https://openmyanmarlabs.com/release/open-myanmar-invoice/",
+    "released_at": "2026-05-26",
+    "mandatory": false,
+    "notes": {
+      "en": "Initial seed entry for Open Myanmar Invoice. No update is available yet.",
+      "my": "Open Myanmar Invoice ၏ ပထမဆုံး မှတ်တမ်းဖြစ်သည်။ အပ်ဒိတ်အသစ် မရှိသေးပါ။"
+    }
+  },
+  "open-myanmar-speech": {
+    "version": "0.0.0",
+    "downloads": {
+      "macos": "https://openmyanmarlabs.com/release/open-myanmar-speech/open-myanmar-speech-macos.dmg",
+      "win": "https://openmyanmarlabs.com/release/open-myanmar-speech/open-myanmar-speech-win.exe",
+      "linux": "https://openmyanmarlabs.com/release/open-myanmar-speech/open-myanmar-speech-linux.AppImage"
+    },
+    "release_dir": "https://openmyanmarlabs.com/release/open-myanmar-speech/",
+    "released_at": "2026-05-26",
+    "mandatory": false,
+    "notes": {
+      "en": "Initial seed entry for Open Myanmar Speech. No update is available yet.",
+      "my": "Open Myanmar Speech ၏ ပထမဆုံး မှတ်တမ်းဖြစ်သည်။ အပ်ဒိတ်အသစ် မရှိသေးပါ။"
+    }
+  },
+  "open-myanmar-content": {
+    "version": "0.0.0",
+    "downloads": {
+      "macos": "https://openmyanmarlabs.com/release/open-myanmar-content/open-myanmar-content-macos.dmg",
+      "win": "https://openmyanmarlabs.com/release/open-myanmar-content/open-myanmar-content-win.exe",
+      "linux": "https://openmyanmarlabs.com/release/open-myanmar-content/open-myanmar-content-linux.AppImage"
+    },
+    "release_dir": "https://openmyanmarlabs.com/release/open-myanmar-content/",
+    "released_at": "2026-05-26",
+    "mandatory": false,
+    "notes": {
+      "en": "Initial seed entry for Open Myanmar Content. No update is available yet.",
+      "my": "Open Myanmar Content ၏ ပထမဆုံး မှတ်တမ်းဖြစ်သည်။ အပ်ဒိတ်အသစ် မရှိသေးပါ။"
+    }
   }
 }
